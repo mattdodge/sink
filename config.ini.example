@@ -1,0 +1,10 @@
+[CONFIG]
+
+	SECRET_PHRASE = CHANGETHISKEY
+
+
+[sink master]
+	GITHUB_ACCOUNT = mattdodge
+	GITHUB_REPO = sink
+	GITHUB_BRANCH = master
+	DIRECTORY = "././test"
