@@ -21,7 +21,7 @@ This repository aims to provide a one-stop-shop for all of your GitHub webhooks,
     **Be sure to change your SECRET_PHRASE, you will need it in the next step.**
 
 3. From your GitHub organization or from an individual repo, add a webhook to point to your recently cloned sync directory. Following up on our previous example:
-    - **Payload URL**: *http://yourhost.com/sink*
+    - **Payload URL**: *http://yourhost.com/sink/*
     - **Content-Type**: *application/json*
     - **Secret**: *The secret phrase you configured in step 2*
     
