@@ -24,6 +24,18 @@ This repository aims to provide a one-stop-shop for all of your GitHub webhooks,
     - **Payload URL**: *http://yourhost.com/sink*
     - **Content-Type**: *application/json*
     - **Secret**: *The secret phrase you configured in step 2*
+    
+#### Adding a sink
+
+If you want to keep a directory on your web server synced with a branch of a remote repository, it's as easy as adding this to your `config.ini`
+
+```ini
+[live site]
+  GITHUB_ACCOUNT = mattdodge
+  GITHUB_REPO = sink
+  GITHUB_BRANCH = master
+  DIRECTORY = "/var/www/homepage"
+```
 
 ## Why
 
