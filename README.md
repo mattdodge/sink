@@ -11,7 +11,7 @@ This repository aims to provide a one-stop-shop for all of your GitHub webhooks,
 
     ```sh
     cd /var/www
-    git clone git@github.com:mattdodge/sink.git
+    git clone https://github.com/mattdodge/sink.git
     ```
 
 2. Copy `config.ini.example` to `config.ini` and modify its contents to match your desired implementation. See below for more documentation on configuration options.
