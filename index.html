@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Sink by mattdodge</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>Sink</h1>
+          <h2>Keep remote directories in &quot;sink&quot; with GitHub repositories using webhooks</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/mattdodge/sink/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/mattdodge/sink/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/mattdodge/sink" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>
+<a id="sink" class="anchor" href="#sink" aria-hidden="true"><span class="octicon octicon-link"></span></a>sink</h1>
+
+<p>One webhook to rule them all.</p>
+
+<p>Often times, an organization will have multiple directories on a web server that need to be synced to individual GitHub repositories. Ideally, these directories would support some sort of Continuous Deployment as well. Toss in different branches with something like <a href="http://nvie.com/posts/a-successful-git-branching-model/">git flow</a> and maintaining webhooks can get unruly pretty fast.</p>
+
+<p>This repository aims to provide a one-stop-shop for all of your GitHub webhooks, relying on server-side config to keep different directories synced up with different branches on different repositories. With the <a href="https://github.com/blog/1933-introducing-organization-webhooks">recent addition of organization-wide webhooks</a>, administrators will ideally only need one webhook to keep all of their directories in "sink".</p>
+
+<h2>
+<a id="basic-usage" class="anchor" href="#basic-usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Basic Usage</h2>
+
+<ol>
+<li>
+<p>In some accessible directory on your web server, clone down sink. For example:</p>
+
+<div class="highlight highlight-sh"><pre><span class="pl-s3">cd</span> /var/www
+git clone https://github.com/mattdodge/sink.git</pre></div>
+</li>
+<li>
+<p>Copy <code>config.ini.example</code> to <code>config.ini</code> and modify its contents to match your desired implementation. See below for more documentation on configuration options.</p>
+
+<p><strong>Be sure to change your SECRET_PHRASE, you will need it in the next step.</strong></p>
+</li>
+<li>
+<p>From your GitHub organization or from an individual repo, add a webhook to point to your recently cloned sync directory. Following up on our previous example:</p>
+
+<ul>
+<li>
+<strong>Payload URL</strong>: <em><a href="http://yourhost.com/sink">http://yourhost.com/sink</a></em>
+</li>
+<li>
+<strong>Content-Type</strong>: <em>application/json</em>
+</li>
+<li>
+<strong>Secret</strong>: <em>The secret phrase you configured in step 2</em>
+</li>
+</ul>
+</li>
+</ol>
+
+<h4>
+<a id="adding-a-sink" class="anchor" href="#adding-a-sink" aria-hidden="true"><span class="octicon octicon-link"></span></a>Adding a sink</h4>
+
+<p>If you want to keep a directory on your web server synced with a branch of a remote repository, it's as easy as adding this to your <code>config.ini</code></p>
+
+<div class="highlight highlight-ini"><pre><span class="pl-en">[live site]</span>
+  <span class="pl-k">GITHUB_ACCOUNT</span> = mattdodge
+  <span class="pl-k">GITHUB_REPO</span> = sink
+  <span class="pl-k">GITHUB_BRANCH</span> = master
+  <span class="pl-k">DIRECTORY</span> = <span class="pl-s1"><span class="pl-pds">"</span>/var/www/homepage<span class="pl-pds">"</span></span></pre></div>
+
+<h2>
+<a id="why" class="anchor" href="#why" aria-hidden="true"><span class="octicon octicon-link"></span></a>Why</h2>
+
+<p>A couple of different things inspired this script, if you can relate to any of these, sink may be for you.</p>
+
+<ul>
+<li>More and more web servers are coming with SSH access and git installed on them. Might as well make use of them!</li>
+<li>
+<p>I normally find myself having multiple web apps on a single web server. I also like to version control each web app in a separate repository. Frankly, I just got really tired of running the following commands over and over and over</p>
+
+<div class="highlight highlight-sh"><pre>ssh matt@webserver
+<span class="pl-s3">cd</span> path/to/webappD
+git pull</pre></div>
+</li>
+<li>It's pretty easy to add a simple endpoint that <code>cd</code>'s into the directory, and then pull the code down. The problem is you have to add a webhook to each repository and keep track of them all. This is what I used to do, but I never liked how it would pull down on every push to every branch. </li>
+<li>Like I mentioned earlier, I'm a huge proponent of <a href="http://nvie.com/posts/a-successful-git-branching-model/">git flow</a>. I wanted a way to keep my staging servers in sync with my <strong>develop</strong> branch and my production servers in sync with <strong>master</strong> without having different scripts and different webhooks.</li>
+<li>CI tools typically integrate pretty easily with GitHub, but they are really too heavy for what you normally need just when syncing a repo.</li>
+</ul>
+
+<h2>
+<a id="security" class="anchor" href="#security" aria-hidden="true"><span class="octicon octicon-link"></span></a>Security</h2>
+
+<p>Because sink has the possibility of getting <em>sooooo</em> popular, we need to think a little bit about the possibility of someone doing something malicious. The good news is that sink really shouldn't do anything unexpected. The only action it can take is resetting a folder that you have configured to match what is on a GitHub repository already. At the very least you should thank your attacker for bringing everything up to date for you. But, nonetheless, people are creative, so here are some security precautions you can/should take.</p>
+
+<ol>
+<li><p>Change the <code>SECRET_PHRASE</code> in your <code>config.ini</code>. The script actually makes you do it (unless you change the script...), so just do it. It can't hurt.</p></li>
+<li>
+<p>Protect your <code>config.ini</code>. We don't want someone to be able to make a request to <code>http://yourhost/sink/config.ini</code> and see all of your tokens/keys/accounts in plaintext. The repository comes with a <code>.htaccess</code> file that will take care of this for you if you're on Apache. If you're on IIS, I'm sure there is some other way to make this work, I just have no idea how.</p>
+
+<p>Similarly, don't commit your config.ini if you are putting this on GitHub. The repo also comes with a <code>.gitignore</code> to help you with that. If you made a boo-boo and did that you probably should <a href="https://help.github.com/articles/remove-sensitive-data/">take down your sensitive data</a>.</p>
+</li>
+<li><p>Double-check your <code>RESET_MODE</code> on each sink. By default, the webhook action won't actually call a <code>git reset</code> on a directory. Sometimes it's useful to perform a reset before pulling though, in case a bad (read: lazy) user changed a file directly on the server, rather than committing and pushing like a good boy. </p></li>
+</ol>
+        </section>
+
+        <footer>
+          Sink is maintained by <a href="https://github.com/mattdodge">mattdodge</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
