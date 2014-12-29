@@ -1,4 +1,4 @@
-<Files config.ini>
-Order Allow, Deny
+<Files "config.ini">
+Order Allow,Deny
 Deny from all
 </Files>
