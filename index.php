@@ -42,6 +42,8 @@ foreach($config as $configName => $configArr) {
 	}
 
 	if (configMatches($configArr, $payloadBody)) {
+		echo "Found a matching sink : $configName\n";
+		echo "------------------\n";
 		try {
 			processConfig($configArr);
 		} catch ( Exception $e ) {
