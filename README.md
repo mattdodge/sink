@@ -16,7 +16,7 @@ This repository aims to provide a one-stop-shop for all of your GitHub webhooks,
     git clone https://github.com/mattdodge/sink.git
     ```
 
-2. Copy `config.ini.example` to `config.ini` and modify its contents to match your desired implementation. See below for more documentation on configuration options.
+2. Copy `config.ini.example` to `config.ini` and modify its contents to match your desired implementation. See [the wiki](https://github.com/mattdodge/sink/wiki/Documentation) for more documentation on configuration options.
 
     **Be sure to change your SECRET_PHRASE, you will need it in the next step.**
 
@@ -37,7 +37,7 @@ If you want to keep a directory on your web server synced with a branch of a rem
   DIRECTORY = "/var/www/homepage"
 ```
 
-## Why
+## Why?
 
 A couple of different things inspired this script, if you can relate to any of these, sink may be for you.
 
@@ -53,15 +53,17 @@ A couple of different things inspired this script, if you can relate to any of t
 - Like I mentioned earlier, I'm a huge proponent of [git flow](http://nvie.com/posts/a-successful-git-branching-model/). I wanted a way to keep my staging servers in sync with my **develop** branch and my production servers in sync with **master** without having different scripts and different webhooks.
 - CI tools typically integrate pretty easily with GitHub, but they are really too heavy for what you normally need just when syncing a repo.
 
-## Security
 
-Because sink has the possibility of getting *sooooo* popular, we need to think a little bit about the possibility of someone doing something malicious. The good news is that sink really shouldn't do anything unexpected. The only action it can take is resetting a folder that you have configured to match what is on a GitHub repository already. At the very least you should thank your attacker for bringing everything up to date for you. But, nonetheless, people are creative, so here are some security precautions you can/should take.
+## Documentation
 
-1. Change the `SECRET_PHRASE` in your `config.ini`. The script actually makes you do it (unless you change the script...), so just do it. It can't hurt.
+Check out more documentation about the configuration options in the [Documentation Wiki](https://github.com/mattdodge/sink/wiki/Documentation).
 
-2. Protect your `config.ini`. We don't want someone to be able to make a request to `http://yourhost/sink/config.ini` and see all of your tokens/keys/accounts in plaintext. The repository comes with a `.htaccess` file that will take care of this for you if you're on Apache. If you're on IIS, I'm sure there is some other way to make this work, I just have no idea how.
 
-    Similarly, don't commit your config.ini if you are putting this on GitHub. The repo also comes with a `.gitignore` to help you with that. If you made a boo-boo and did that you probably should [take down your sensitive data](https://help.github.com/articles/remove-sensitive-data/).
+## Examples
 
-3. Double-check your `RESET_MODE` on each sink. By default, the webhook action won't actually call a `git reset` on a directory. Sometimes it's useful to perform a reset before pulling though, in case a bad (read: lazy) user changed a file directly on the server, rather than committing and pushing like a good boy. 
-  
+We've got a couple of cool examples of using sink in the [Examples Wiki](https://github.com/mattdodge/sink/wiki/Cool-Examples)
+
+
+## License
+
+[MIT](http://opensource.org/licenses/MIT) - you know the drill, blah blah blah
