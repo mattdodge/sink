@@ -51,7 +51,7 @@
 git clone https://github.com/mattdodge/sink.git</pre></div>
 </li>
 <li>
-<p>Copy <code>config.ini.example</code> to <code>config.ini</code> and modify its contents to match your desired implementation. See below for more documentation on configuration options.</p>
+<p>Copy <code>config.ini.example</code> to <code>config.ini</code> and modify its contents to match your desired implementation. See <a href="https://github.com/mattdodge/sink/wiki/Documentation">the wiki</a> for more documentation on configuration options.</p>
 
 <p><strong>Be sure to change your SECRET_PHRASE, you will need it in the next step.</strong></p>
 </li>
@@ -60,7 +60,7 @@ git clone https://github.com/mattdodge/sink.git</pre></div>
 
 <ul>
 <li>
-<strong>Payload URL</strong>: <em><a href="http://yourhost.com/sink">http://yourhost.com/sink</a></em>
+<strong>Payload URL</strong>: <em><a href="http://yourhost.com/sink/">http://yourhost.com/sink/</a></em>
 </li>
 <li>
 <strong>Content-Type</strong>: <em>application/json</em>
@@ -84,7 +84,7 @@ git clone https://github.com/mattdodge/sink.git</pre></div>
   <span class="pl-k">DIRECTORY</span> = <span class="pl-s1"><span class="pl-pds">"</span>/var/www/homepage<span class="pl-pds">"</span></span></pre></div>
 
 <h2>
-<a id="why" class="anchor" href="#why" aria-hidden="true"><span class="octicon octicon-link"></span></a>Why</h2>
+<a id="why" class="anchor" href="#why" aria-hidden="true"><span class="octicon octicon-link"></span></a>Why?</h2>
 
 <p>A couple of different things inspired this script, if you can relate to any of these, sink may be for you.</p>
 
@@ -103,19 +103,19 @@ git pull</pre></div>
 </ul>
 
 <h2>
-<a id="security" class="anchor" href="#security" aria-hidden="true"><span class="octicon octicon-link"></span></a>Security</h2>
+<a id="documentation" class="anchor" href="#documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Documentation</h2>
 
-<p>Because sink has the possibility of getting <em>sooooo</em> popular, we need to think a little bit about the possibility of someone doing something malicious. The good news is that sink really shouldn't do anything unexpected. The only action it can take is resetting a folder that you have configured to match what is on a GitHub repository already. At the very least you should thank your attacker for bringing everything up to date for you. But, nonetheless, people are creative, so here are some security precautions you can/should take.</p>
+<p>Check out more documentation about the configuration options in the <a href="https://github.com/mattdodge/sink/wiki/Documentation">Documentation Wiki</a>.</p>
 
-<ol>
-<li><p>Change the <code>SECRET_PHRASE</code> in your <code>config.ini</code>. The script actually makes you do it (unless you change the script...), so just do it. It can't hurt.</p></li>
-<li>
-<p>Protect your <code>config.ini</code>. We don't want someone to be able to make a request to <code>http://yourhost/sink/config.ini</code> and see all of your tokens/keys/accounts in plaintext. The repository comes with a <code>.htaccess</code> file that will take care of this for you if you're on Apache. If you're on IIS, I'm sure there is some other way to make this work, I just have no idea how.</p>
+<h2>
+<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Examples</h2>
 
-<p>Similarly, don't commit your config.ini if you are putting this on GitHub. The repo also comes with a <code>.gitignore</code> to help you with that. If you made a boo-boo and did that you probably should <a href="https://help.github.com/articles/remove-sensitive-data/">take down your sensitive data</a>.</p>
-</li>
-<li><p>Double-check your <code>RESET_MODE</code> on each sink. By default, the webhook action won't actually call a <code>git reset</code> on a directory. Sometimes it's useful to perform a reset before pulling though, in case a bad (read: lazy) user changed a file directly on the server, rather than committing and pushing like a good boy. </p></li>
-</ol>
+<p>We've got a couple of cool examples of using sink in the <a href="https://github.com/mattdodge/sink/wiki/Cool-Examples">Examples Wiki</a></p>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p><a href="http://opensource.org/licenses/MIT">MIT</a> - you know the drill, blah blah blah</p>
         </section>
 
         <footer>
