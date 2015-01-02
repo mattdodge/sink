@@ -1,8 +1,26 @@
-[CONFIG]
+; This is an example configuration file you can use
+; as a starting point.
+;
+; To start, you will probably want to copy or rename
+; this file to config.ini
+;
+; More documentation is available on the GitHub wiki
+; https://github.com/mattdodge/sink/wiki
+;
 
+; This represents the global configuration
+[CONFIG] 
+
+; The SECRET_PHRASE is required - you should change
+; this to your own unique value
 	SECRET_PHRASE = CHANGETHISKEY
 
 
+; All other "section headings" are treated as sinks
+;  A sink is a connection between a folder on this 
+;  machine and a branch of a remote GitHub repository.
+; 
+;  This sink is named "sink master"
 [sink master]
 	GITHUB_ACCOUNT = mattdodge
 	GITHUB_REPO = sink
